@@ -1,7 +1,7 @@
 https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
 
 
-/* Non-evil wand [id, age, coins_needed & power]
+/* Non-evil wand [id, age, coins_needed & power]*/
 SELECT 
   Wands.id,
   Wands_Property.age,
