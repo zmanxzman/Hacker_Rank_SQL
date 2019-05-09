@@ -1,0 +1,50 @@
+https://www.hackerrank.com/challenges/projects/problem
+
+
+SELECT * FROM Projects; 
+
+/* Non consecutive Start_Date & End_Date */
+
+SELECT Start_Date 
+FROM Projects 
+WHERE Start_Date NOT IN (SELECT End_Date FROM Projects); 
+
+SELECT End_Date 
+FROM Projects 
+WHERE End_Date NOT IN (SELECT Start_Date FROM Projects); 
+
+
+/* Start_Date & End_Date for all projects. */
+
+SELECT 
+   a.Start_Date AS start_date, 
+   MIN(b.End_Date) AS end_date
+FROM 
+ (SELECT Start_Date FROM Projects WHERE Start_Date NOT IN (SELECT End_Date FROM Projects)) a, 
+ (SELECT End_Date FROM Projects WHERE End_Date NOT IN (SELECT Start_Date FROM Projects)) b
+WHERE 
+  a.Start_Date < b.End_Date
+GROUP BY 
+  a.Start_Date;
+  
+  
+  
+/* Order by the number of days it took to complete the project in ascending order. */
+
+SELECT 
+  c.start_date, c.end_date
+FROM 
+(
+SELECT a.Start_Date AS start_date, MIN(b.End_Date) AS end_date
+FROM 
+ (SELECT Start_Date FROM Projects WHERE Start_Date NOT IN (SELECT End_Date FROM Projects)) a, 
+ (SELECT End_Date FROM Projects WHERE End_Date NOT IN (SELECT Start_Date FROM Projects)) b
+WHERE 
+  a.Start_Date < b.End_Date
+GROUP BY 
+  a.Start_Date
+) c
+ORDER BY 
+  DATEDIFF(c.end_date, c.start_date) ASC; 
+  
+  
