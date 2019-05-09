@@ -1,0 +1,40 @@
+https://www.hackerrank.com/challenges/harry-potter-and-wands/problem
+
+
+/* Non-evil wand [id, age, coins_needed & power]
+SELECT 
+  Wands.id,
+  Wands_Property.age,
+  Wands.coins_needed, 
+  Wands.power
+FROM
+  Wands 
+LEFT JOIN
+  Wands_Property ON Wands.code = Wands_Property.code
+WHERE 
+  Wands_Property.is_evil = 0
+ORDER BY 
+  Wands.power DESC;
+
+
+
+/* Minimum number of gold galleons needed to buy each non-evil wand of high power and age */
+SELECT 
+   A.id, 
+   B.age,
+   A.coins_needed,
+   A.power
+From 
+   Wands A
+LEFT JOIN 
+   Wands_Property B ON A.code = B.code
+WHERE 
+  B.is_evil = 0 
+  AND A.coins_needed =
+      (
+       SELECT min(Wands.coins_needed) 
+       FROM Wands
+       LEFT JOIN Wands_Property ON Wands.code = Wands_Property.code
+       WHERE A.power = Wands.power AND B.age = Wands_Property.age
+     )
+ORDER BY 4 desc, 2 desc; 
